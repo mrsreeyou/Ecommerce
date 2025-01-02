@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    /* General body styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Dashboard box styling */
+    .dashboard-box {
+      background-color: #fff;
+      width: 400px;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    /* Admin logo styling */
+    .dashboard-box img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-box h1 {
+      font-size: 24px;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    .dashboard-box p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    /* Admin options styling */
+    .dashboard-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .dashboard-links a {
+      text-decoration: none;
+      font-size: 16px;
+      color: #fff;
+      background-color: #3498db;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+    }
+
+    .dashboard-links a:hover {
+      background-color: #2980b9;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px);
+    }
+
+    /* Logout button styling */
+    .logout-link {
+      margin-top: 20px;
+      display: inline-block;
+      text-decoration: none;
+      font-size: 14px;
+      color: #e74c3c;
+      border: 1px solid #e74c3c;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .logout-link:hover {
+      background-color: #e74c3c;
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-box">
+    <img src="https://img.icons8.com/ios-glyphs/90/3498db/admin-settings-male.png" alt="Admin Logo">
+    <h1>Admin Dashboard</h1>
+    <p>Admin ID: <%= adminId %></p>
+
+    <div class="dashboard-links">
+      <a href="/admin/create/product">Create Product</a>
+      <a href="/admin/product/list">Product List</a>
+      <a href="/admin/create/category">Create Category</a>
+      <a href="/admin/category/list">Category List</a>
+      <a href="/admin/create/subcategory">Create Subcategory</a>
+      <a href="/admin/subcategory/list">Subcategory List</a>
+      <a href="/admin/user/list">User list</a>
+    </div>
+
+    <a href="/admin/logout" class="logout-link">Logout</a>
+  </div>
+</body>
+
+</html>

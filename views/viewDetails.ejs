@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreeyou Product Page</title>
+    <style>
+        /* Styles for the Sreeyou Product Page */
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #F9F9F9;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background-color:rgb(28, 28, 29);
+            color: rgb(66, 66, 66);
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .admin-link {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            background-color: white;
+            color: #007BFF;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-link:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav li {
+            margin: 0 1rem;
+        }
+
+        .nav li :hover {
+            color: rgb(17, 81, 201);
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .auth-buttons a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: #0056b3;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        .auth-buttons a:hover {
+            background-color: #003d80;
+        }
+
+        .main {
+            padding: 2rem 0;
+        }
+
+        .products-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .product-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(255, 255, 255);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem auto;
+            /* Center the container horizontally */
+            max-width: 600px;
+            /* Optional: Limit the width for better alignment */
+            text-align: center;
+            /* Align text and content in the center */
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .product-info div {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn2 {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            border: 1px;
+            background-color: #ffae00;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+        .btn2:hover {
+            background-color: #c98a04;
+        }
+        .cart{
+            padding-right: 50px;
+        }
+        span{
+            display: flex;
+            color:aliceblue;
+            background-color: black;
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top:50%;
+            right: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <!-- <a href="/admin/dashboard" class="admin-link">Admin Dashboard</a> -->
+        <nav class="nav">
+            <ul>
+                <li><a href="/user/scart">Home</a></li>
+                <li><a href="/products">Products</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/user/cart">Cart</a></li>
+                <li><a href="/user/wishlist">Wishlist</a></li>
+                <li><a href="/user/orders/place">Orders</a></li>
+            </ul>
+            </ul>
+        </nav>
+        <!-- <% if(!token){ %>
+            <div class="auth-buttons">
+                <a href="/user/login">Login</a>
+            </div>
+            <% }else{ %>
+                <div class="auth-buttons">
+                    <a href="/user/logout">Logout</a>
+                </div>
+                <%} %> -->
+                <div >
+                    <svg xmlns="http://www.w3.org/2000/svg"  class="cart" width="30" height="30" viewBox="0 0 24 24" style="fill: rgb(240, 205, 8);"><path d="M21.822 7.431A1 1 0 0 0 21 7H7.333L6.179 4.23A1.994 1.994 0 0 0 4.333 3H2v2h2.333l4.744 11.385A1 1 0 0 0 10 17h8c.417 0 .79-.259.937-.648l3-8a1 1 0 0 0-.115-.921z"></path><circle cx="10.5" cy="19.5" r="1.5"></circle><circle cx="17.5" cy="19.5" r="1.5"></circle></svg>
+                    <span >0</span>
+                </div>
+
+    </header>
+
+    <div class="product-container">
+        <% if (!product.isBlocked) { %>
+            <h2 class="product-title">
+                <%= product.name %>
+            </h2>
+            <div class="product-details">
+                <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" class="product-image">
+                <div class="product-info">
+                    <p class="product-description">
+                        <%= product.description %>
+                    </p>
+                    <p class="product-price">Price: $<%= product.price %>
+                    </p>
+                    <div>
+                        
+                        <form action="/user/bynow/<%= product._id %>" method="POST">
+                            <button class="btn btn-buy">Buy Now</button>
+                        </form>
+                        
+                        <a href="/user/cart/add/<%= product._id %>"><button class="btn2 btn-cart">Add to cart</button></a>
+                        <a href="/user/wishlist/add/<%= product._id %>">Add to wishlist</a>
+                   
+                    </div>
+                    
+                </div>
+            </div>
+            <% } else { %>
+                <p>This product is currently unavailable.</p>
+                <% } %>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Scart. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Registration</title>
+    <!-- <link rel="stylesheet" href="/project s/public/style.css"> -->
+     <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 50px;
+    background-color: rgb(28, 28, 29);
+}
+
+.container{
+    height: auto;
+    width: 500px;
+    background-color: rgb(236, 236, 240);
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    border-radius:20px ;
+}
+h2 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: auto;
+}
+
+input, button {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: rgb(236, 236, 240);
+    border: none;
+    cursor: pointer;
+}
+.error{
+    color: red;
+    font-size: small;
+}
+     </style>
+</head>
+<body>
+    <div class="container">
+    <h2>User Registration</h2>
+    <form action="/user/register" method="post">
+        <span class="error"> <p4><%= errors.firstname || "" %></span>
+        <input  name="firstname" placeholder="First Name" >
+        <span class="error"> <p4><%= errors.email || "" %></span>
+        <input  name="email" placeholder="Email" >
+        <span class="error"> <p4><%= errors.password || "" %></span>
+        <input  name="password" placeholder="Password" >
+        <span class="error"> <p4><%= errors.age || "" %></span>
+        <input  name="age" placeholder="Age" ><br>
+        <button type="submit">Register</button>
+    <center><p>Have an account? <a href="/user/login">Login</a></p></center>
+    </form>
+</div>
+</body>
+</html>

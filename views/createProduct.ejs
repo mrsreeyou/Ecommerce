@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Product</title>
+  <style>
+    /* General Styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+      background-color: #007bff;
+      color: white;
+      width: 20%;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar a:hover {
+      background-color: #0056b3;
+    }
+
+    .logout-link {
+      margin-top: auto;
+      background-color: #e74c3c;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .logout-link:hover {
+      background-color: #c0392b;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    /* Page Title */
+    .main-content h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Add Product Form */
+    .add-product-container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .add-product-container h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+    }
+
+    .add-product-container form input,
+    .add-product-container form button {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .add-product-container form input {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+    }
+
+    .add-product-container form input:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+    }
+
+    .add-product-container form button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .add-product-container form button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+
+      .main-content {
+        margin-left: 200px;
+      }
+
+      .add-product-container {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .add-product-container h2 {
+        font-size: 24px;
+      }
+    }
+    .error{
+      color: red;
+      font-size: small;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="/admin/dashboard"><h1>Admin Dashboard</h1></a>
+    <a href="/admin/create/product">Create Product</a>
+    <a href="/admin/product/list">Product List</a>
+    <a href="/admin/create/category">Create Category</a>
+    <a href="/admin/category/list">Category List</a>
+    <a href="/admin/create/subcategory">create subcategory</a>
+    <a href="/admin/subcategory/list">Subcategory List</a>
+    <a href="/admin/user/list">User list</a>
+    <a href="/admin/logout" class="logout-link">Logout</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="add-product-container">
+      <h2>Enter Product Details</h2>
+      <form method="POST" action="/admin/create/product" enctype="multipart/form-data">
+
+        <span><p class="error"><%= errors.productName || " " %></p></span>
+        <input  name="name" placeholder="Product Name" >
+        <span><p class="error"><%= errors.category || " " %></p></span>
+        <select name="category" >
+          <% categories.forEach(category => { %>
+              <option value="<%= category._id %>"><%= category.name %></option>
+          <% }) %>
+      </select>
+      <span><p class="error"><%= errors.description || " " %></p></span>
+        <input type="text" name="description" placeholder="Description" >
+        <span><p class="error"><%= errors.price || " " %></p></span>
+        <input type="number" name="price" placeholder="Price" >
+        <span><p class="error"><%= errors.image || " " %></p></span>
+        <input type="file" name="image" required>
+        <button type="submit">Add Product</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

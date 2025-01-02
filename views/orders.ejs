@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreeyou Product Page</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background-color: #24272b;
+            color: white;
+            padding: 1rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav li {
+            margin: 0 1rem;
+        }
+
+        .nav li :hover {
+            color: rgb(17, 81, 201);
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .auth-buttons a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        /* Main Content */
+        .main {
+            padding: 2rem 0;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: bold;
+        }
+
+        td img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+        }
+
+        .remove-btn {
+            padding: 0.5rem 1rem;
+            background-color: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-btn:hover {
+            background-color: #c53030;
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #999;
+            margin-top: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+
+        .user-welcome {
+            color: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="nav">
+            <ul>
+                <li><a href="/user/scart">Home</a></li>
+                <li><a href="/products">Products</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/user/cart">Cart</a></li>
+                <li><a href="/user/wishlist">Wishlist</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Your Orders</h1>
+        <div class="main">
+            <table>
+                <% if (orders.length===0) { %>
+                    <p>You have not placed any orders yet.</p>
+                    <% } else { %>
+                        <ul>
+                            <% orders.forEach(order=> { %>
+                                <li>
+                                    <h3>Order ID: <%= order._id %></h3>
+                                    <p>Status: <%= order.status %></p>
+                                    <p>Total Amount: $<%= order.totalAmount %></p>
+                                    <p>Payment Method: <%= order.paymentMethod %></p>
+                                    <p>Placed on: <%= order.createdAt.toLocaleDateString() %></p>
+                                    <h4>Items:</h4>
+                                    <ul>
+                                        <% order.items.forEach(item=> { %>
+                                            <li>
+                                                <strong>
+                                                    <%= item.productId.name %>
+                                                </strong> -
+                                                Quantity: <%= item.quantity %>
+                                                    ($<%= item.productId.price %>)
+                                            </li>
+                                            <% }); %>
+                                    </ul>
+                                    
+                                    </h3>
+                                    
+
+                                    <% if (order.status==='Pending' ) { %>
+                                        <form action="/user/orders/cancel/<%= order._id %>" method="POST">
+                                            <button type="submit">Cancel Order</button>
+                                        </form>
+                                        <% } %>
+                                </li>
+                                <% }); %>
+                        </ul>
+                        <% } %>
+            </table>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Scart. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.login-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+form input {
+  height: auto;
+  width: auto;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background: #0056b3;
+}
+.error{
+  color: red;
+  font-size: small;
+}
+
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Admin Login</h1>
+    <center><p style="color: rgb(3, 143, 3); background-color: antiquewhite;"><%= logOut %></p></center>
+    <form method="POST" action="/admin/login">
+      <span><p class="error"><%= errors.username || " " %></p></span>
+      <!-- Username input -->
+      <input  name="username" placeholder="Username" >
+       <span><p class="error"><%= errors.password || " " %></p></span>
+       <!-- password input -->
+      <input name="password" placeholder="Password" ><br>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+</body>
+</html>
