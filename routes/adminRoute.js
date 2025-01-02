@@ -164,8 +164,17 @@ router.post('/user/block/:id',authenticate, userBlock)
 router.post('/user/unblock/:id',authenticate, userUnblock)
 
 router.get('/orders/list',authenticate,async(req,res)=>{
-    const orders= await Order.find().populate('items.productId')
+
+    try { 
+        
+    const orders= await Order.find()
     res.render('ordersList',{orders})
+
+    }catch(error){
+        console.log(`Admin Order List :${error}`)
+        res.status(500).send('Admin Order Error')
+        
+    }
     
 })
 

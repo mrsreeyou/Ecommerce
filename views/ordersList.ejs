@@ -138,15 +138,42 @@
     <a href="/admin/user/list">User list</a>
     <a href="/admin/logout" class="logout-link">Logout</a>
   </div>
-  <div >
-    <h1>Orders List</h1>
-    <% orders.forEach(order=> { %>
-        <h2 style="color: #0056b3;"> OrderId : <%= order._id %></h2>
-       
-        <h4>Total Amount :<%= order.totalAmount %>$</h4>
-        <p>Status : <%= order.status %></p>
-        <h5>User paymentMethod : <%= order.paymentMethod %></h5>
-        <% }) %>
+  
+  <div class="table1">
+    <table border="1">
+      <thead>
+        <tr>
+            <th>UserId</th>
+          <th>OrderId</th>
+          <th>Total Amount</th>
+          <th>Status</th>
+          <th>paymentMethod</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% orders.forEach(order=> { %>
+            <tr>
+                <td><% order.userId %></td>
+              <td>
+                <%= order._id %>
+              </td>
+              <td>
+                <%= order.totalAmount %>$
+              </td>
+              <td>
+                <select name="" id="" >
+                    <option value=""><%= order.status %></option>
+                    
+                </select>
+              </td>
+              <td>
+                <%= order.paymentMethod %>
+              </td>
+              <%}) %>
+            </tr>
+           
+      </tbody>
+    </table>
   </div>
 
 
