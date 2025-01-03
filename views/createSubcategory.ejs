@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Category</title>
+    <title>Create Subcategory</title>
     <style>
         /* General Styling */
         body {
@@ -11,59 +11,44 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
-            display: flex;
             min-height: 100vh;
         }
 
-        /* Sidebar Styling */
-        .sidebar {
+        /* Top Navigation Bar */
+        .navbar {
             background-color: #007bff;
             color: white;
-            width: 20%;
-            padding: 20px;
+            padding: 10px 20px;
             display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        .sidebar h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .sidebar a {
-            text-decoration: none;
+        .navbar a {
             color: white;
-            font-size: 18px;
-            margin: 10px 0;
-            padding: 10px 15px;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+            padding: 8px 12px;
             border-radius: 5px;
             transition: background-color 0.3s;
         }
 
-        .sidebar a:hover {
+        .navbar a:hover {
             background-color: #0056b3;
         }
 
-        .logout-link {
-            margin-top: auto;
+        .navbar .logout-link {
             background-color: #e74c3c;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-align: center;
         }
 
-        .logout-link:hover {
+        .navbar .logout-link:hover {
             background-color: #c0392b;
         }
 
         /* Main Content */
         .main-content {
-            flex-grow: 1;
             padding: 20px;
         }
 
@@ -74,7 +59,7 @@
             margin-bottom: 20px;
         }
 
-        /* Add Category Form */
+        /* Add Subcategory Form */
         .add-category-container {
             background-color: #fff;
             padding: 30px;
@@ -85,13 +70,9 @@
             margin: 0 auto;
         }
 
-        .add-category-container h1 {
-            font-size: 28px;
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-
         .add-category-container form input,
+        .add-category-container form select,
+        .add-category-container form textarea,
         .add-category-container form button {
             width: 100%;
             padding: 12px 15px;
@@ -101,11 +82,15 @@
             font-size: 16px;
         }
 
-        .add-category-container form input {
+        .add-category-container form input,
+        .add-category-container form select,
+        .add-category-container form textarea {
             background-color: #f5f5f5;
         }
 
-        .add-category-container form input:focus {
+        .add-category-container form input:focus,
+        .add-category-container form select:focus,
+        .add-category-container form textarea:focus {
             outline: none;
             border-color: #007bff;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
@@ -125,23 +110,26 @@
         .add-category-container form button:active {
             background-color: #004085;
         }
-        .error{
+
+        .error {
             color: red;
             font-size: small;
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <a href="/admin/dashboard"><h1>Admin Dashboard</h1></a>
-        <a href="/admin/create/product">Create Product</a>
-        <a href="/admin/product/list">Product List</a>
-        <a href="/admin/create/category">Create Category</a>
-        <a href="/admin/category/list">Category List</a>
-        <a href="/admin/create/subcategory">create subcategory</a>
-        <a href="/admin/subcategory/list">Subcategory List</a>
-        <a href="/admin/user/list">User list</a>
+    <!-- Top Navigation Bar -->
+    <div class="navbar">
+        <div>
+            <a href="/admin/create/product">Create Product</a>
+            <a href="/admin/product/list">Product List</a>
+            <a href="/admin/create/category">Create Category</a>
+            <a href="/admin/category/list">Category List</a>
+            <a href="/admin/create/subcategory">Create Subcategory</a>
+            <a href="/admin/subcategory/list">Subcategory List</a>
+            <a href="/admin/user/list">User List</a>
+            <a href="/admin/user/orders/list">Orders List</a>
+        </div>
         <a href="/admin/logout" class="logout-link">Logout</a>
     </div>
 
@@ -151,7 +139,7 @@
             <h1>Create Subcategory</h1>
             <form method="POST" action="/admin/create/subcategory">
                 <span><p class="error"><%= errors.categoryName || " " %></p></span>
-                <input  name="name" placeholder="Subcategory Name" >
+                <input name="name" placeholder="Subcategory Name" >
                 <select name="categoryId" required>
                     <% categories.forEach(category => { %>
                         <option value="<%= category._id %>"><%= category.name %></option>

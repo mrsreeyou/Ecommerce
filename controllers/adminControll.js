@@ -32,8 +32,8 @@ function nameValidation(name, errors) {
         errors.productName = "Must be include small letters and capital letters.";
     } else if (/^[a-z]+$/.test(name)) {
         errors.productName = "Must be include capital and small letters are allowed.";
-    } else if (/[^a-zA-Z]/.test(name)) {
-        errors.productName = "Only letters are allowed.";
+    } else if (/\d/.test(name)) {
+        errors.categoryName = "Numbers not allowed.";
     } else if (/^[a-z]/.test(name)) {
         errors.productName = "Must be start with a Capital letter.";
     }
@@ -41,9 +41,7 @@ function nameValidation(name, errors) {
 function descriptionValidation(description, errors) {
     if (!description) {
         errors.description = "Enter description"
-    } else if (/[^a-zA-Z]/.test(description)) {
-        errors.description = "Only letters are allowed.";
-    }
+    } 
 }
 function priceValidation(price, errors) {
     if (!price) {
@@ -58,8 +56,8 @@ function categoryValidation(name,errors){
         errors.categoryName="Enter category name"
     }else if (/^[a-z]/.test(name)) {
         errors.categoryName = "Must be start with a Capital letter.";
-    }else if (/[^a-zA-Z]/.test(name)) {
-        errors.categoryName = "Only letters are allowed.";
+    }else if (/\d/.test(name)) {
+        errors.categoryName = "Numbers not allowed.";
     }
 }
 
@@ -170,7 +168,10 @@ exports.createProduct = async (req, res) => {
         const product = new Product({ name, category, description, price, image })
         await product.save()
 
-        res.redirect('/admin/product/list');
+        
+        res.redirect('/admin/create/product');
+       
+
 
     } catch (err) {
         console.log(`createProduct Error: ${err}`)
@@ -236,7 +237,7 @@ exports.createCategory = async (req, res) => {
 
         const category = new Category({ name, description })
         await category.save()
-        res.redirect('/admin/category/list')
+        res.redirect('/admin/create/category')
 
     } catch (err) {
         console.log(`create category:${err}`);
