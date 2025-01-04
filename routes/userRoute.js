@@ -164,6 +164,7 @@ router.get('/cart/add/:productId', ensureAuthenticated, async (req, res) => {
             cart.items.push({ productId, quantity: 1 });
         }
 
+        
         await cart.save(); // Save the updated cart
         res.redirect('/user/cart'); // Redirect to the cart page
     } catch (err) {
@@ -176,7 +177,7 @@ router.get('/cart/add/:productId', ensureAuthenticated, async (req, res) => {
 router.get('/cart', ensureAuthenticated, async (req, res) => {
     const userId = req.user?._id; // Ensure userId exists
     if (!userId) {
-        return res.status(400).send('User not authenticatedkkk');
+        return res.status(400).send('User not authenticated');
     }
     try {
         const cart = await Cart.findOne({ userId }).populate('items.productId'); // Populate product details
@@ -207,6 +208,8 @@ router.get('/cart/remove/:productId', ensureAuthenticated, async (req, res) => {
 
         // Filter out the product from the cart items
         cart.items = cart.items.filter(item => item.productId.toString() !== productId);
+
+
 
         // Save the updated cart
         await cart.save();
@@ -265,7 +268,7 @@ router.get('/wishlist/add/:productId', ensureAuthenticated, async (req, res) => 
             // Add new product to the cart
             wishlist.items.push({ productId, quantity: 1 });
         }
-
+        
 
         await wishlist.save(); // Save the updated cart
         console.log(wishlist.items.name)
@@ -405,86 +408,110 @@ router.post('/orders/cancel/:orderId', ensureAuthenticated,async (req, res) => {
     }
 });
 
-router.post('/bynow/:productId',ensureAuthenticated, async(req,res)=>{
+// Buy Now Route
+router.post('/bynow/:productId', ensureAuthenticated, async (req, res) => {
     const { productId } = req.params;
-    const userId = req.user._id; // Ensure userId is retrieved safely
-
-    if (!userId) {
-        return res.status(400).send('User ID is required');
-    }
-
-    if (!productId) {
-        return res.status(400).send('Product ID is required');
-    }
+    const userId = req.user._id;
 
     try {
         // Find or create the user's cart
         let cart = await Cart.findOne({ userId });
-
         if (!cart) {
-            cart = new Cart({ userId, items: [] }); // Assign userId when creating the cart
+            cart = new Cart({ userId, items: [] });
         }
 
-        // Ensure cart.items is an array
+        // Ensure the cart is properly initialized
         if (!Array.isArray(cart.items)) {
             cart.items = [];
         }
 
-        // Sanitize existing items
-        cart.items = cart.items.filter(item => item.productId);
-
-        // Check if the product already exists in the cart
+        // Add or update the product in the cart
         const productIndex = cart.items.findIndex(
             item => item.productId && item.productId.toString() === productId
         );
 
         if (productIndex > -1) {
-            // Product exists in the cart, increment quantity
-            cart.items[productIndex].quantity += 1;
+            cart.items[productIndex].quantity = 1; // Set quantity to 1 for Buy Now
         } else {
-            // Add new product to the cart
-            cart.items.push({ productId, quantity: 1 });
-        } await cart.save()
+            cart.items = [{ productId, quantity: 1 }];
+        }
 
+        await cart.save(); // Save the cart
+
+        // Redirect to the payment page
+        res.redirect(`/user/payment/${productId}`);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Error adding product to cart');
+        res.status(500).send('Error processing Buy Now');
     }
-     //order-place
-     const cart = await Cart.findOne({ userId }).populate('items.productId');
+});
+// Payment Page Route
+router.get('/payment/:productId', ensureAuthenticated, async (req, res) => {
+    const { productId } = req.params;
+    const userId = req.user._id;
 
-     if (!cart || cart.items.length === 0) {
-        return res.status(400).send('Your cart is empty.');
+    try {
+        // Find the user's cart
+        const cart = await Cart.findOne({ userId }).populate('items.productId');
+        if (!cart) {
+            return res.status(400).send('Cart not found');
+        }
+
+        const item = cart.items.find(item => item.productId._id.toString() === productId);
+        if (!item) {
+            return res.status(400).send('Product not found in cart');
+        }
+
+        const totalAmount = item.productId.price * item.quantity;
+
+        res.render('payment', { order: { _id: productId, totalAmount } });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error fetching payment details');
     }
+});
+// Place Order Route
+router.post('/payment/:productId', ensureAuthenticated, async (req, res) => {
+    const userId = req.user._id;
+    const { productId } = req.params;
+    const { paymentMethod } = req.body;
 
-    // Calculate the total amount
-    const totalAmount = cart.items.reduce((total, item) => {
-        return total + item.productId.price * item.quantity;
-    }, 0);
+    try {
+        // Retrieve the user's cart
+        const cart = await Cart.findOne({ userId }).populate('items.productId');
+        if (!cart) {
+            return res.status(400).send('Cart not found');
+        }
 
-    // Create the order
-    const newOrder = new Order({
-        userId,
-        items: cart.items.map(item => ({
-            productId: item.productId._id,
-            quantity: item.quantity,
-        })),
-        totalAmount,
-    });
+        const item = cart.items.find(item => item.productId._id.toString() === productId);
+        if (!item) {
+            return res.status(400).send('Product not found in cart');
+        }
 
-    await newOrder.save();
+        // Calculate the total amount
+        const totalAmount = item.productId.price * item.quantity;
 
-      // Clear the cart after placing the order
+        // Create the order
+        const newOrder = new Order({
+            userId,
+            items: [{ productId: item.productId._id, quantity: item.quantity }],
+            totalAmount,
+            paymentMethod,
+        });
+
+        await newOrder.save();
+
+        // Clear the cart
         cart.items = [];
         await cart.save();
 
-    res.redirect('/user/orders/place')
-   
+        res.redirect('/user/orders/place'); // Redirect to orders page
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error placing the order');
+    }
 });
 
-router.get('/payment',(req,res)=>{
-    res.render('payment')
-})
 router.get('/scart.com',(req,res)=>{
     res.render('s')
 })

@@ -139,17 +139,65 @@
         .place-order{
             padding-left: 87%;
         }
-        .place-order-btn{
-            padding: 0.5rem 1rem;
-            background-color: #ebdc0d;
-            color: rgb(27, 26, 26);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .place-order-btn:hover{
-            background-color:#c5b90c;
-        }
+        /* Payment Section Styles */
+.place-order {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 2rem;
+    background-color: #f7f7f7;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.place-order h3 {
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.place-order label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #555;
+}
+
+#paymentMethod {
+    width: 200px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    background-color: white;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+#paymentMethod:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.place-order-btn {
+    width: auto;
+    padding: 0.7rem 1.5rem;
+    background-color: #e8e10b;
+    color: rgb(12, 12, 12);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.place-order-btn:hover {
+    background-color: #c0ba08;
+}
+
     </style>
 </head>
 
@@ -188,36 +236,34 @@
                         </tr>
                     <% } else { %>
                         <% cart.items.forEach(item => { %>
-                            <tr>
-                                <td><img src="/uploads/<%= item.productId.image %>" alt="<%= item.productId.name %>"></td>
-                                <td><%= item.productId.name %></td>
-                                <td><%= item.productId.price %>$</td>
-                                <td><a href="/user/increment<%= item %>"><button  >-</button></a>
-                                    <%= item.quantity %> 
-                                    <a href=""><button  >+</button></a>
-                                </td>
-                                <td><%= item.quantity*item.productId.price %>$</td>
-                                <td><a href="/user/cart/remove/<%= item.productId._id %>"><button class="remove-btn">Remove</button></a></td>
-                            </tr>
-                            <tr>
-                               <td></td>
-                            </tr>
-                                
+                            <% if (item.productId) { %>
+                                <tr>
+                                    <td><img src="/uploads/<%= item.productId.image %>" alt="<%= item.productId.name %>"></td>
+                                    <td><%= item.productId.name %></td>
+                                    <td><%= item.productId.price %>$</td>
+                                    <td>
+                                        <a href="/user/increment<%= item %>"><button>-</button></a>
+                                        <%= item.quantity %>
+                                        <a href=""><button>+</button></a>
+                                    </td>
+                                    <td><%= item.quantity * item.productId.price %>$</td>
+                                    <td><a href="/user/cart/remove/<%= item.productId._id %>"><button class="remove-btn">Remove</button></a></td>
+                                </tr>
+                            <% } %>
                         <% }); %>
                     <% } %>
                 </tbody>
+                
             </table>
             <form action="/user/orders/place" class="place-order" method="POST">
-            <h3>Total Amount: $<%= cart.totalAmount %></h3>
-            <label for="paymentMethod">Choose Payment Method:</label>
+                <h3>Total Amount: $<%= cart.totalAmount %></h3>
+                <label for="paymentMethod">Choose Payment Method:</label>
                 <select id="paymentMethod" name="paymentMethod" required>
-                    <option value="CashonDelivery">Cash on Delivery</option>
-                    <option value="CreditCard">Credit Card</option>
-                    <option value="DebitCard">Debit Card</option>
+                    <option value="Cash on Delivery">Cash on Delivery</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
                     <option value="UPI">UPI</option>
                 </select>
-             
-           
                 <button class="place-order-btn">Place Order</button>
             </form>
         </div>

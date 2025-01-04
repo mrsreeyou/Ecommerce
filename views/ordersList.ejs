@@ -63,7 +63,7 @@
     /* Order List Table */
     table {
       width: 100%;
-      max-width: 900px;
+      max-width: 1200px;
       margin: 0 auto;
       border-collapse: collapse;
       background-color: white;
@@ -103,6 +103,43 @@
         font-size: 14px;
       }
     }
+      /* Add styling for the dropdown and table here */
+      .filter {
+            margin-bottom: 1rem;
+        }
+
+        .filter select {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            
+            
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #239c08;
+            color: white;
+            font-weight: bold;
+        }
+
+        td select, td button {
+            margin: 0.5rem 0;
+        }
   </style>
 </head>
 
@@ -117,7 +154,7 @@
       <a href="/admin/create/subcategory">Create Subcategory</a>
       <a href="/admin/subcategory/list">Subcategory List</a>
       <a href="/admin/user/list">User List</a>
-      <a href="/admin/user/orders/list">Orders List</a>
+      <a href="/admin/orders/list">Orders List</a>
     </div>
     <a href="/admin/logout" class="logout-link">Logout</a>
   </div>
@@ -125,34 +162,59 @@
   <!-- Main Content -->
   <div class="main-content">
     <h1>Order List</h1>
+      <!-- Filter Dropdown -->
+      <form action="/admin/orders/list" method="get" class="filter">
+        <label for="status">Filter by Status:</label>
+        <select id="status" name="status" onchange="this.form.submit()">
+            <option value="All" <%= currentStatus === 'All' ? 'selected' : '' %>>All</option>
+            <option value="Pending" <%= currentStatus === 'Pending' ? 'selected' : '' %>>Pending</option>
+            <option value="Shipped" <%= currentStatus === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+            <option value="Delivered" <%= currentStatus === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+            <option value="Cancelled" <%= currentStatus === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+        </select>
+    </form>
+
+    <!-- Orders Table -->
     <table>
-      <thead>
-        <tr>
-          <th>User ID</th>
-          <th>Order ID</th>
-          <th>Total Amount</th>
-          <th>Status</th>
-          <th>Payment Method</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% orders.forEach(order => { %>
-        <tr>
-          <td><%= order.userId %></td>
-          <td><%= order._id %></td>
-          <td>$<%= order.totalAmount %></td>
-          <td>
-            <select>
-              <option selected><%= order.status %></option>
-              <option value="Processing">Processing</option>
-              <option value="Shipped">Shipped</option>
-              <option value="Delivered">Delivered</option>
-            </select>
-          </td>
-          <td><%= order.paymentMethod %></td>
-        </tr>
-        <% }) %>
-      </tbody>
+        <thead>
+            <tr>
+                <th>User Email</th>
+                <th>Order ID</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Payment Method</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (orders.length === 0) { %>
+                <tr>
+                    <td colspan="5">No orders found for the selected status.</td>
+                </tr>
+            <% } else { %>
+                <% orders.forEach(order => { %>
+                    <tr>
+                        <td><%= order.userId.email  %></td>
+                        <td><%= order._id %></td>
+                        <td>$<%= order.totalAmount %></td>
+                        <td>
+                            <form action="/admin/orders/update/status/<%= order._id %>" method="post">
+                                <div>
+                                    <select name="status">
+                                        <option selected><%= order.status %></option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="Shipped">Shipped</option>
+                                        <option value="Delivered">Delivered</option>
+                                        <option value="Cancelled">Cancelled</option>
+                                    </select>
+                                    <button type="submit">Update</button>
+                                </div>
+                            </form>
+                        </td>
+                        <td><%= order.paymentMethod %></td>
+                    </tr>
+                <% }) %>
+            <% } %>
+        </tbody>
     </table>
   </div>
 </body>

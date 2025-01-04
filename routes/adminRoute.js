@@ -166,9 +166,17 @@ router.post('/user/unblock/:id',authenticate, userUnblock)
 router.get('/orders/list',authenticate,async(req,res)=>{
 
     try { 
-        
-    const orders= await Order.find()
-    res.render('ordersList',{orders})
+        const { status } = req.query; // Get status from query params
+
+        // Build filter dynamically based on status
+        const filter = status ? { status } : {};
+
+        // Fetch orders from the database
+        const orders = await Order.find(filter).populate('userId', 'name email'); // Adjust populate fields as needed
+
+        res.render('ordersList', { orders, currentStatus: status || 'All' }); // Pass currentStatus to view
+
+    
 
     }catch(error){
         console.log(`Admin Order List :${error}`)
@@ -177,6 +185,22 @@ router.get('/orders/list',authenticate,async(req,res)=>{
     }
     
 })
+
+// Update Order Status
+router.post('/orders/update/status/:id', authenticate, async (req, res) => {
+    try {
+        const { id } = req.params; // Order ID
+        const { status } = req.body; // New status from the form
+
+        // Update the order in the database
+        await Order.findByIdAndUpdate(id, { status });
+
+        res.redirect('/admin/orders/list'); // Redirect back to the order list
+    } catch (error) {
+        console.log(`Order Status Update Error: ${error}`);
+        res.status(500).send('Error updating order status');
+    }
+});
 
 module.exports = router;
 

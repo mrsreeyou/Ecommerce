@@ -50,9 +50,11 @@
         .nav li {
             margin: 0 1rem;
         }
-        .nav li :hover{
+
+        .nav li :hover {
             color: rgb(17, 81, 201);
         }
+
         .nav a {
             color: white;
             text-decoration: none;
@@ -86,7 +88,8 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        th, td {
+        th,
+        td {
             padding: 1rem;
             text-align: center;
             border: 1px solid #ddd;
@@ -136,20 +139,6 @@
         .user-welcome {
             color: #f9f9f9;
         }
-        .place-order{
-            padding-left: 87%;
-        }
-        .place-order-btn{
-            padding: 0.5rem 1rem;
-            background-color: #ebdc0d;
-            color: rgb(27, 26, 26);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .place-order-btn:hover{
-            background-color:#c5b90c;
-        }
     </style>
 </head>
 
@@ -161,16 +150,17 @@
                 <li><a href="/products">Products</a></li>
                 <li><a href="/about">About</a></li>
                 <li><a href="/contact">Contact</a></li>
+                <li><a href="/user/cart">Cart</a></li>
                 <li><a href="/user/wishlist">Wishlist</a></li>
-                <li><a href="/user/orders/place">Orders</a></li>
             </ul>
         </nav>
     </header>
 
     <div class="container">
-        <h1>Choose Payment Method</h1>
+        <h1>Payment</h1>
         <div class="main">
-               
+            <form action="/user/payment/<%= order._id %>" class="place-order" method="POST">
+                <h3>Total Amount: $<%= order.totalAmount %></h3>
                 <label for="paymentMethod">Choose Payment Method:</label>
                 <select id="paymentMethod" name="paymentMethod" required>
                     <option value="Cash on Delivery">Cash on Delivery</option>
@@ -178,20 +168,15 @@
                     <option value="Debit Card">Debit Card</option>
                     <option value="UPI">UPI</option>
                 </select>
-
-                <button type="submit">Place Order</button>
-            <form action="/user/orders/place" class="place-order" method="POST">
                 <button class="place-order-btn">Place Order</button>
             </form>
         </div>
-        
     </div>
+    
 
     <footer class="footer">
         <p>&copy; 2024 Scart. All rights reserved.</p>
     </footer>
 </body>
-<script>
-   
-</script>
+
 </html>

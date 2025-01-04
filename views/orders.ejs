@@ -139,6 +139,68 @@
         .user-welcome {
             color: #f9f9f9;
         }
+
+        /* //orders */
+
+        .orders-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.order-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: 300px;
+    max-width: 100%;
+    text-align: left;
+}
+
+.order-box h3 {
+    margin-top: 0;
+    color: #007BFF;
+}
+
+.order-box p {
+    margin: 0.5rem 0;
+    color: #333;
+}
+
+.order-box ul {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.order-box ul li {
+    margin-bottom: 0.5rem;
+}
+
+.cancel-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #c53030;
+}
+
+.empty-orders-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #999;
+    margin-top: 2rem;
+}
+
     </style>
 </head>
 
@@ -158,46 +220,36 @@
 
     <div class="container">
         <h1>Your Orders</h1>
-        <div class="main">
-            <table>
-                <% if (orders.length===0) { %>
-                    <p>You have not placed any orders yet.</p>
-                    <% } else { %>
+        <div class="orders-container">
+            <% if (orders.length === 0) { %>
+                <p class="empty-orders-message">You have not placed any orders yet.</p>
+            <% } else { %>
+                <% orders.forEach(order => { %>
+                    <div class="order-box">
+                        <h3>Order ID: <%= order._id %></h3>
+                        <p><strong>Status:</strong> <%= order.status %></p>
+                        <p><strong>Total Amount:</strong> $<%= order.totalAmount %></p>
+                        <p><strong>Payment Method:</strong> <%= order.paymentMethod %></p>
+                        <p><strong>Placed On:</strong> <%= order.createdAt.toLocaleDateString() %></p>
+                        <h4>Items:</h4>
                         <ul>
-                            <% orders.forEach(order=> { %>
+                            <% order.items.forEach(item => { %>
                                 <li>
-                                    <h3>Order ID: <%= order._id %></h3>
-                                    <p>Status: <%= order.status %></p>
-                                    <p>Total Amount: $<%= order.totalAmount %></p>
-                                    <p>Payment Method: <%= order.paymentMethod %></p>
-                                    <p>Placed on: <%= order.createdAt.toLocaleDateString() %></p>
-                                    <h4>Items:</h4>
-                                    <ul>
-                                        <% order.items.forEach(item=> { %>
-                                            <li>
-                                                <strong>
-                                                    <%= item.productId.name %>
-                                                </strong> -
-                                                Quantity: <%= item.quantity %>
-                                                    ($<%= item.productId.price %>)
-                                            </li>
-                                            <% }); %>
-                                    </ul>
-                                    
-                                    </h3>
-                                    
-
-                                    <% if (order.status==='Pending' ) { %>
-                                        <form action="/user/orders/cancel/<%= order._id %>" method="POST">
-                                            <button type="submit">Cancel Order</button>
-                                        </form>
-                                        <% } %>
+                                    <strong><%= item.productId.name %></strong> - 
+                                    Quantity: <%= item.quantity %> ($<%= item.productId.price %>)
                                 </li>
-                                <% }); %>
+                            <% }) %>
                         </ul>
+                        <% if (order.status === 'Pending') { %>
+                            <form action="/user/orders/cancel/<%= order._id %>" method="POST">
+                                <button type="submit" class="cancel-btn">Cancel Order</button>
+                            </form>
                         <% } %>
-            </table>
+                    </div>
+                <% }) %>
+            <% } %>
         </div>
+        
     </div>
 
     <footer class="footer">
