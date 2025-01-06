@@ -97,6 +97,7 @@ exports.adminLogin = async (req, res) => {
 
     //verify password
     const hashedpassword = await bcrypt.hash(admin.password, 10)
+
     const isMatch = await bcrypt.compare(password, hashedpassword)
     if (!isMatch) return res.status(400).send('invalid password or username')
 
@@ -125,60 +126,47 @@ exports.authenticate = (req, res, next) => {
     }
 };
 
-//multer 
-
-const multer = require('multer')
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // Specify upload directory
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname); // Set unique file name
-    }
-});
-
-exports.upload = multer({ storage });
 
 
 
 //createproduct
 exports.createProduct = async (req, res) => {
     try {
-        const { name, description, price, category } = req.body
-        const image = `/uploads/${req.file.filename}`
+        const { name, description, price, category } = req.body;
 
-        const errors = {}
-        nameValidation(name, errors)
-        descriptionValidation(description, errors)
-        priceValidation(price, errors)
-         // Validate Image
-         if (!req.file) {
-            errors.image = "Product image is required.";
+        // Validate Image
+        if (!req.file) {
+            const errors = { image: "Product image is required." };
+            const categories = await Category.find();
+            return res.render('createProduct', { categories, errors });
         }
+
+        const image = req.file.filename; // Save only the filename
+
+        const errors = {};
+        nameValidation(name, errors);
+        descriptionValidation(description, errors);
+        priceValidation(price, errors);
 
         // If there are validation errors, re-render the form with error messages
         if (Object.keys(errors).length > 0) {
-
-            const categories = await Category.find()
-            return res.render('createProduct', { categories, errors })
+            const categories = await Category.find();
+            return res.render('createProduct', { categories, errors });
         }
 
+        const product = new Product({ name, category, description, price, image });
+        await product.save();
 
-        const product = new Product({ name, category, description, price, image })
-        await product.save()
-
-        
-        res.redirect('/admin/create/product');
-       
+        console.log('Uploaded File Path:', req.file.path);
 
 
+        res.redirect('/admin/product/list');
     } catch (err) {
-        console.log(`createProduct Error: ${err}`)
-        res.send(`creatingProduct Error: ${err}`)
+        console.log(`createProduct Error: ${err}`);
+        res.send(`createProduct Error: ${err}`);
     }
+};
 
-}
 
 //updateProduct
 

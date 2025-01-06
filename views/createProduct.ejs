@@ -5,124 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Create Product</title>
-  <style>
-    /* General Styling */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f9;
-    }
-
-    /* Top Navigation Bar */
-    .navbar {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .navbar a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-
-    .navbar a:hover {
-      background-color: #0056b3;
-    }
-
-    .navbar .logout-link {
-      background-color: #e74c3c;
-    }
-
-    .navbar .logout-link:hover {
-      background-color: #c0392b;
-    }
-
-    /* Main Content */
-    .main-content {
-      padding: 20px;
-    }
-
-    /* Add Product Form */
-    .add-product-container {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
-      margin: 20px auto;
-    }
-
-    .add-product-container h2 {
-      font-size: 28px;
-      margin-bottom: 20px;
-      text-align: center;
-      color: #333;
-    }
-
-    .add-product-container form input,
-    .add-product-container form select,
-    .add-product-container form button {
-      width: 100%;
-      padding: 12px 15px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    .add-product-container form input,
-    .add-product-container form select {
-      background: #f5f5f5;
-      border: 1px solid #ddd;
-    }
-
-    .add-product-container form input:focus,
-    .add-product-container form select:focus {
-      outline: none;
-      border-color: #007bff;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
-    }
-
-    .add-product-container form button {
-      background-color: #35d412;
-      color: white;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .add-product-container form button:hover {
-      background-color: #239809;
-    }
-
-    /* Error Messages */
-    .error {
-      color: red;
-      font-size: small;
-      margin-top: -10px;
-      margin-bottom: 10px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-wrap: wrap;
-      }
-
-      .navbar a {
-        margin: 5px 0;
-      }
-    }
-  </style>
+ 
 </head>
 
 <body>
@@ -166,5 +49,122 @@
     </div>
   </div>
 </body>
+<style>
+  /* General Styling */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+  }
 
+  /* Top Navigation Bar */
+  .navbar {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .navbar a:hover {
+    background-color: #0056b3;
+  }
+
+  .navbar .logout-link {
+    background-color: #e74c3c;
+  }
+
+  .navbar .logout-link:hover {
+    background-color: #c0392b;
+  }
+
+  /* Main Content */
+  .main-content {
+    padding: 20px;
+  }
+
+  /* Add Product Form */
+  .add-product-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+  }
+
+  .add-product-container h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+  }
+
+  .add-product-container form input,
+  .add-product-container form select,
+  .add-product-container form button {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  .add-product-container form input,
+  .add-product-container form select {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+  }
+
+  .add-product-container form input:focus,
+  .add-product-container form select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+  }
+
+  .add-product-container form button {
+    background-color: #35d412;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .add-product-container form button:hover {
+    background-color: #239809;
+  }
+
+  /* Error Messages */
+  .error {
+    color: red;
+    font-size: small;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .navbar {
+      flex-wrap: wrap;
+    }
+
+    .navbar a {
+      margin: 5px 0;
+    }
+  }
+</style>
 </html>

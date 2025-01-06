@@ -62,19 +62,20 @@ router.get('/create/product', authenticate, async (req, res) => {
 
 // Ensure the uploads directory exists
 const fs = require('fs');
+
 const uploadDir = path.join(__dirname, '..', 'public', 'uploads');
+
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Configure multer to store files in public/uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, uploadDir); // Upload files to the public/uploads folder
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
-    }
+    },
 });
 
 const upload = multer({ storage });

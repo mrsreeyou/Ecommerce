@@ -5,155 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product List</title>
-  <style>
-    /* General Styling */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f9;
-      min-height: 100vh;
-    }
-
-    /* Top Navigation Bar */
-    .navbar {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .navbar a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-
-    .navbar a:hover {
-      background-color: #0056b3;
-    }
-
-    .navbar .logout-link {
-      background-color: #e74c3c;
-    }
-
-    .navbar .logout-link:hover {
-      background-color: #c0392b;
-    }
-
-    /* Main Content */
-    .main-content {
-      padding: 20px;
-    }
-
-    /* Page Title */
-    .main-content h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 20px;
-    }
-
-    /* Product Container */
-    .product-container {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
-    }
-
-    /* Product Card Styling */
-    .product-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 900px;
-      padding: 15px 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .product-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Product Details */
-    .product-details {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .product-details img {
-      width: 80px;
-      height: 80px;
-      border-radius: 8px;
-      object-fit: cover;
-    }
-
-    .product-details h2 {
-      font-size: 18px;
-      margin: 0;
-      color: #333;
-    }
-
-    .product-details p {
-      font-size: 16px;
-      margin: 5px 0 0;
-      color: #666;
-    }
-
-    /* Button Group */
-    .button-group {
-      display: flex;
-      gap: 10px;
-    }
-
-    /* Buttons Styling */
-    .edit,
-    .block-unblock {
-      background-color: #0f56d0;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .edit:hover,
-    .block-unblock:hover {
-      background-color: #0942a4;
-    }
-
-    .delete {
-      color: white;
-      border: none;
-      padding: 0px 1px 1px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .delete:hover {
-      color: red;
-    }
-
-    .categoryId {
-      color: green;
-    }
-  </style>
+ 
 </head>
 
 <body>
@@ -180,7 +32,8 @@
         <div class="product-card">
           <!-- Product Details -->
           <div class="product-details">
-            <img src="/uploads/<%= product.image %>" alt="<%= product.name %>">
+            <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" >
+
             <div>
               <h2><%= product.name %></h2>
               <h4 class="categoryId">CategoryId: <%= product.category %></h4>
@@ -195,13 +48,15 @@
               <button class="edit">Edit</button>
             </a>
             <form action="/admin/product/delete/<%= product._id %>" method="POST">
-              <h1 class="delete" type="submit" onclick="return confirm('Are you sure you want to delete this product?')">
+              <button class="delete" type="submit" onclick="return confirm('Are you sure you want to delete this product?')">
                 <p>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgb(224, 27, 27);">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"  style="fill: rgb(224, 27, 27);">
                     <path d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm10.618-3L15 2H9L7.382 4H3v2h18V4z"></path>
                   </svg>
                 </p>
-              </h1>
+              
+              </button>
+               
             </form>
             <% if (product.isBlocked) { %>
               <form action="/admin/product/unblock/<%= product._id %>" method="POST">
@@ -218,5 +73,156 @@
     </div>
   </div>
 </body>
+<style>
+  /* General Styling */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    min-height: 100vh;
+  }
 
+  /* Top Navigation Bar */
+  .navbar {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 16px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .navbar a:hover {
+    background-color: #0056b3;
+  }
+
+  .navbar .logout-link {
+    background-color: #e74c3c;
+  }
+
+  .navbar .logout-link:hover {
+    background-color: #c0392b;
+  }
+
+  /* Main Content */
+  .main-content {
+    padding: 20px;
+  }
+
+  /* Page Title */
+  .main-content h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  /* Product Container */
+  .product-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  /* Product Card Styling */
+  .product-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 900px;
+    padding: 15px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Product Details */
+  .product-details {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .product-details img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .product-details h2 {
+    font-size: 18px;
+    margin: 0;
+    color: #333;
+  }
+
+  .product-details p {
+    font-size: 16px;
+    margin: 5px 0 0;
+    color: #666;
+  }
+
+  /* Button Group */
+  .button-group {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* Buttons Styling */
+  .edit,
+  .block-unblock {
+    background-color: #0f56d0;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .edit:hover,
+  .block-unblock:hover {
+    background-color: #0942a4;
+  }
+
+  .delete {
+  border: none;
+  padding: 0px 1px 1px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  background: transparent;
+}
+
+.delete:hover {
+  
+ .product-card{
+  background-color: #0056b3;
+ }
+}
+
+  .categoryId {
+    color: green;
+  }
+</style>
 </html>

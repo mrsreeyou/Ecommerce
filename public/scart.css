@@ -1,0 +1,236 @@
+/* Styles for the Sreeyou Product Page */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
+    background-color: #24272b;
+    color: white;
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.admin-link {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    background-color: white;
+    color: #007BFF;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-link:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav li {
+    margin: 0 1rem;
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+.nav li :hover{
+    color: rgb(17, 81, 201);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.auth-buttons a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.auth-buttons a:hover {
+    background-color: #303233;
+}
+
+.main {
+    padding: 2rem 0;
+}
+
+.products-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.product-container {
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    flex: 1 1 calc(30% - 1rem);
+    max-width: calc(30% - 1rem);
+}
+
+.product-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.product-image {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+}
+
+.product-info {
+    text-align: left;
+}
+
+.product-description {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007BFF;
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #2c3035;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.btn:hover {
+    background-color: #3c3c3d;
+}
+.btn2 {
+    padding-left: 50%;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #01080f;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.btn2:hover {
+    background-color: #0056b3;
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+.user-welcome {
+    color: #f9f9f9;
+}
+.filter-form{
+    background-color: #d5dadf;
+    display: flex;
+    justify-content: center;
+    
+}
+.viewdetails{
+    display: flex;
+    justify-content: center;
+}
+
+.image-scroller {
+overflow: hidden;
+width: 100%;
+background-color: #f9f9f9; /* Adjust background as needed */
+padding: 20px 0;
+margin-bottom: 2rem;
+position: relative;
+background-color: #007BFF;
+}
+
+.scroll-container {
+display: flex;
+gap: 20px;
+animation: scroll-alternate 10s linear infinite;
+will-change: transform;
+}
+
+.scroll-container img {
+width: 200px; /* Adjust image width */
+height: auto;
+border-radius: 10px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes scroll-alternate {
+0% {
+transform: translateX(0%);
+}
+50% {
+transform: translateX(-50%);
+}
+100% {
+transform: translateX(0%);
+}
+}

@@ -4,118 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Subcategory</title>
-    <style>
-        /* General Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            min-height: 100vh;
-        }
-
-        /* Top Navigation Bar */
-        .navbar {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 16px;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .navbar a:hover {
-            background-color: #0056b3;
-        }
-
-        .navbar .logout-link {
-            background-color: #e74c3c;
-        }
-
-        .navbar .logout-link:hover {
-            background-color: #c0392b;
-        }
-
-        /* Main Content */
-        .main-content {
-            padding: 20px;
-        }
-
-        /* Page Title */
-        .main-content h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        /* Add Subcategory Form */
-        .add-category-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .add-category-container form input,
-        .add-category-container form select,
-        .add-category-container form textarea,
-        .add-category-container form button {
-            width: 100%;
-            padding: 12px 15px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .add-category-container form input,
-        .add-category-container form select,
-        .add-category-container form textarea {
-            background-color: #f5f5f5;
-        }
-
-        .add-category-container form input:focus,
-        .add-category-container form select:focus,
-        .add-category-container form textarea:focus {
-            outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
-        }
-
-        .add-category-container form button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .add-category-container form button:hover {
-            background-color: #0056b3;
-        }
-
-        .add-category-container form button:active {
-            background-color: #004085;
-        }
-
-        .error {
-            color: red;
-            font-size: small;
-        }
-    </style>
+   
 </head>
 <body>
     <!-- Top Navigation Bar -->
@@ -152,4 +41,116 @@
         </div>
     </div>
 </body>
+<style>
+    /* General Styling */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+        min-height: 100vh;
+    }
+
+    /* Top Navigation Bar */
+    .navbar {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar a {
+        color: white;
+        text-decoration: none;
+        margin: 0 10px;
+        font-size: 16px;
+        padding: 8px 12px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .navbar a:hover {
+        background-color: #0056b3;
+    }
+
+    .navbar .logout-link {
+        background-color: #e74c3c;
+    }
+
+    .navbar .logout-link:hover {
+        background-color: #c0392b;
+    }
+
+    /* Main Content */
+    .main-content {
+        padding: 20px;
+    }
+
+    /* Page Title */
+    .main-content h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Add Subcategory Form */
+    .add-category-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .add-category-container form input,
+    .add-category-container form select,
+    .add-category-container form textarea,
+    .add-category-container form button {
+        width: 100%;
+        padding: 12px 15px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .add-category-container form input,
+    .add-category-container form select,
+    .add-category-container form textarea {
+        background-color: #f5f5f5;
+    }
+
+    .add-category-container form input:focus,
+    .add-category-container form select:focus,
+    .add-category-container form textarea:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.7);
+    }
+
+    .add-category-container form button {
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .add-category-container form button:hover {
+        background-color: #0056b3;
+    }
+
+    .add-category-container form button:active {
+        background-color: #004085;
+    }
+
+    .error {
+        color: red;
+        font-size: small;
+    }
+</style>
 </html>

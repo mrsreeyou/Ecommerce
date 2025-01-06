@@ -5,7 +5,7 @@ require('dotenv').config()
 const bodyParser = require('body-parser')
 const cookieParser=require('cookie-parser')
 const Admin=require("./models/AdminModel")
- 
+const path =require('path')
 
 
 
@@ -38,6 +38,9 @@ app.use(cookieParser())
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'))
+app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+
 app.use(express.json());
 
 //routes
