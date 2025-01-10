@@ -63,9 +63,14 @@
                 
             </table>
             <form action="/user/orders/place" class="place-order" method="POST">
-                <h3>Total Amount: $<%= cart.totalAmount %></h3>
+                
+                
+                    <h3>Total Amount: $ <%= cart.items.reduce((sum, item) => sum + item.quantity * item.productId.price, 0) %></h3>
+                    
+              
+               
                 <label for="paymentMethod">Choose Payment Method:</label>
-                <select id="paymentMethod" name="paymentMethod" required>
+                <select  id="paymentMethod" name="paymentMethod" required>
                     <option value="Cash on Delivery">Cash on Delivery</option>
                     <option value="Credit Card">Credit Card</option>
                     <option value="Debit Card">Debit Card</option>

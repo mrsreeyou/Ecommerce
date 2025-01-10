@@ -350,7 +350,7 @@ exports.addtoCart=async (req, res) => {
         const productIndex = cart.items.findIndex(
             item => item.productId && item.productId.toString() === productId
         );
-
+ 
         if (productIndex > -1) {
             // Product exists in the cart, increment quantity
             cart.items[productIndex].quantity += 1;

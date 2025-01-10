@@ -14,7 +14,7 @@ const path =require('path')
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log('MongoDB connected');
-        return Admin.create({ username: 'mrsreeyou', password: '123456' });
+        return Admin.create({ username: 'sreekesh', password: '123456' });
     })
     .then(admin => {
         console.log('Admin user created:', admin);

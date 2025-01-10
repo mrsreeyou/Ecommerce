@@ -4,7 +4,7 @@
   "description": "registartion form",
   "main": "app.js",
   "scripts": {
-    "dev":"nodemon app"
+    "dev": "nodemon app"
   },
   "author": "sreekesh",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "mongoose": "^8.8.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.16",
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "paypal-rest-sdk": "^1.8.1"
   }
 }

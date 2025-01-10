@@ -23,13 +23,14 @@
                 <li><a href="/user/cart">Cart</a></li>
                 <li><a href="/user/wishlist">Wishlist</a></li>
                 <li><a href="/user/orders/place">Orders</a></li>
+               
             </ul>
         </nav>
-       <% if(!token){ %>
+       <% if(!token ){ %>
         <div class="auth-buttons">
             <a href="/user/login">Login</a>
         </div>
-        <% }else{ %>
+        <% }else if(token || token===undefined){ %>
             <div class="auth-buttons">
                 <a href="/user/logout">Logout</a>
             </div>
@@ -139,7 +140,7 @@ body {
     align-items: center;
     position: fixed; /* Makes the header sticky */
     top: 0; /* Ensures it sticks to the top */
-    width: 100%; /* Ensures it spans the full width */
+    width: 195vh; /* Ensures it spans the full width */
     z-index: 1000; /* Keeps it above other elements */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for better visibility */
 }

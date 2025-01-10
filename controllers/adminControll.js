@@ -108,7 +108,7 @@ exports.adminLogin = async (req, res) => {
     res.redirect('/admin/dashboard')
 }
 
-//cheak  and verify token
+//check  and verify token
 exports.authenticate = (req, res, next) => {
     const token1 = req.cookies.token1;
 

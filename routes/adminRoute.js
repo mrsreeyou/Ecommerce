@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Admin = require('../models/AdminModel')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const secret = process.env.JWT_SECRET || 'secret'; // JWT Secret Key
+
 
 const { adminLogin, authenticate, createProduct, updateProduct, deleteProduct, blockProduct,
     unblockProduct, createCategory, categoryList, GetupdateCategory,
@@ -15,8 +13,6 @@ const multer = require('multer')
 const path = require('path')
 const Product = require('../models/ProductModel')
 const Category = require('../models/CategoryModel')
-const Subcategory = require('../models/SubcategoryModel')
-const User = require('../models/userModel')
 const { log } = require('console')
 const { render } = require('ejs')
 
@@ -36,16 +32,21 @@ router.post('/login', adminLogin)
 //Dashboard
 
 router.get('/dashboard', authenticate, async (req, res) => {
-    const adminId = req.admin.id; // Retrieve adminId from the request
+    const adminId = req.admin.id;
+    const adminModel= await Admin.find().limit(1)
+    console.log(adminModel.username);
+    
+     // Retrieve adminId from the request
 
-    res.render('dashboard', { adminId }); // Render the dashboard with adminId
-    console.log(`token: ${req.admin.iat}`);
+    res.render('dashboard2', { adminId ,adminModel}); // Render the dashboard with adminId
+    // console.log(`token: ${req.admin.iat}`);
 });
 
 
 //logout
 router.get('/logout', async (req, res) => {
     res.clearCookie('token1')
+    Admin.deleteMany({});
 
     logoutTxt = 'logout sucessfully'
     res.redirect('/admin/login')
@@ -202,6 +203,10 @@ router.post('/orders/update/status/:id', authenticate, async (req, res) => {
         res.status(500).send('Error updating order status');
     }
 });
+
+router.get('/ecommerce/data/design',authenticate,(req,res)=>{
+    res.render('dataDesign')
+})
 
 module.exports = router;
 

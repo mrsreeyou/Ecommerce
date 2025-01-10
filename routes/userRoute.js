@@ -26,6 +26,8 @@ router.get('/login', (req, res) => {
 })
 router.post('/login', loginUser)
 
+//log out 
+
 router.get('/logout', (req, res) => {
     res.clearCookie('token')
     res.redirect('/user/scart')
@@ -51,7 +53,9 @@ router.get('/scart', async (req, res) => {
     const products = await Product.find()
     const categories = await Category.find()
     const welcome = ' '
-    const token = false
+    const token = req.cookies.token;
+    // console.log(token);
+    
     res.render('scart', { products, categories, welcome, token })
 
 })
@@ -143,5 +147,9 @@ router.post('/payment/:productId', ensureAuthenticated,buyNowPlaceOrder );
 
 router.get('/scart.com',(req,res)=>{
     res.render('s')
+})
+
+router.get('/payment2',(req,res)=>{
+    res.render('payment2')
 })
 module.exports = router;

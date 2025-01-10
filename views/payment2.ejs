@@ -1,0 +1,162 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>
+        Payment Page
+    </title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="payment-methods">
+            <div>
+                <img alt="Credit/Debit Card" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/DPflVy8c9aWAOiGKWE9NCAVEzeNjN6CzU3uKiNqI9XuuvUDUA.jpg"
+                    width="100" />
+                <div>
+                    Credit/Debit Card
+                </div>
+            </div>
+            <div>
+                <img alt="Netbanking" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/5C3VRQnN8GYUD5tc5pjAF7tfRBS9wvjMNdreJ2kcR192vUDUA.jpg"
+                    width="100" />
+                <div>
+                    Netbanking
+                </div>
+            </div>
+            <div>
+                <img alt="UPI" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/1bq7ftPagSSDUiruGhyyvYJw93feukFtYwJFmibOkmhpfSNQB.jpg"
+                    width="100" />
+                <div>
+                    UPI
+                </div>
+            </div>
+            <div>
+                <img alt="Paytm Wallet" height="50"
+                    src="https://storage.googleapis.com/a1aa/image/cuYKfLfqj3l2Mk66Aketz8Ld1HwyIzgRAH7vpBpALEgkfSNQB.jpg"
+                    width="100" />
+                <div>
+                    Paytm Wallet
+                </div>
+            </div>
+        </div>
+            <input class="product" name="product"  placeholder="Enter Amount"/>
+            <span>
+                1.00 INR
+            </span>
+        <div class="coupon">
+            <input placeholder="I have my coupon" type="text" />
+            <input type="button" value="APPLY" />
+        </div>
+        <button class="buy-button">
+            BUY
+        </button>
+    </div>
+</body>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+    }
+
+    .header {
+        background-color: #000;
+        color: #fff;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header a {
+        color: #fff;
+        text-decoration: none;
+        margin-left: 20px;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    .payment-methods {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+    .payment-methods div {
+        text-align: center;
+    }
+
+    .payment-methods img {
+        width: 100px;
+        height: auto;
+    }
+
+    .product {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .coupon {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .coupon input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+    }
+
+    .coupon input[type="button"] {
+        padding: 10px 20px;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        cursor: pointer;
+    }
+
+    .buy-button {
+        padding: 10px 20px;
+        background-color: #ffcc00;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #777;
+    }
+
+    .footer img {
+        width: 100px;
+        height: auto;
+    }
+
+    .footer a {
+        color: #777;
+        text-decoration: none;
+    }
+</style>
+
+</html>
