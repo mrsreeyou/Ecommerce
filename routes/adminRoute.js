@@ -6,7 +6,7 @@ const Admin = require('../models/AdminModel')
 const { adminLogin, authenticate, createProduct, updateProduct, deleteProduct, blockProduct,
     unblockProduct, createCategory, categoryList, GetupdateCategory,
     updateCategory, deleteCategory, GetcreateSubcategory, createSubcategory,
-    subcategoryList, deleteSubcategory, GetupdateSubcategory, updateSubcategory,userList,userBlock,userUnblock,
+    subcategoryList, deleteSubcategory, GetupdateSubcategory, updateSubcategory, userList, userBlock, userUnblock,
 } = require('../controllers/adminControll')
 
 const multer = require('multer')
@@ -16,7 +16,7 @@ const Category = require('../models/CategoryModel')
 const { log } = require('console')
 const { render } = require('ejs')
 
-const Order=require('../models/OrderModel')
+const Order = require('../models/OrderModel')
 
 
 
@@ -25,7 +25,7 @@ var logoutTxt = ''
 
 //admin login
 router.get('/login', (req, res) => {
-    res.render('adminLogin', { logOut: logoutTxt ,errors:{} })
+    res.render('adminLogin', { logOut: logoutTxt, errors: {} })
 })
 router.post('/login', adminLogin)
 
@@ -33,12 +33,89 @@ router.post('/login', adminLogin)
 
 router.get('/dashboard', authenticate, async (req, res) => {
     const adminId = req.admin.id;
-    const adminModel= await Admin.find().limit(1)
+    const adminModel = await Admin.find().limit(1)
     console.log(adminModel.username);
-    
-     // Retrieve adminId from the request
 
-    res.render('dashboard2', { adminId ,adminModel}); // Render the dashboard with adminId
+    const orders = await Order.find().populate('items.productId')
+
+    // Show Category wise Sales 
+    const categorySales = {};
+
+    orders.forEach(order => {
+        order.items.forEach(item => {
+            const category = item.productId.category;
+            const totalPrice = item.quantity * item.productId.price;
+
+            if (!categorySales[category]) {
+                categorySales[category] = 0;
+            }
+
+            categorySales[category] += totalPrice;
+        });
+    });
+
+    //   Show Online and Offline Payment.
+
+    // Initialize sales totals
+    let onlineSales = 0;
+    let offlineSales = 0;
+
+    // Calculate totals based on payment method
+    orders.forEach(order => {
+        if (['Credit Card', 'Debit Card', 'UPI'].includes(order.paymentMethod)) {
+            onlineSales += order.totalAmount;
+        } else if (order.paymentMethod === 'Cash on Delivery') {
+            offlineSales += order.totalAmount;
+        }
+    });
+
+    //   Top Selling 5 Products.
+
+    const productSales = {};
+
+    // Calculate sales for each product
+    orders.forEach(order => {
+        order.items.forEach(item => {
+            const productId = item.productId._id;
+            const productName = item.productId.name;
+            const productImage = item.productId.image;
+            const totalSales = item.quantity;
+
+            if (!productSales[productId]) {
+                productSales[productId] = {
+                    name: productName,
+                    image: productImage,
+                    sales: 0
+                };
+            }
+
+            productSales[productId].sales += totalSales;
+        });
+    });
+
+    // Sort products by total sales and pick the top 5
+    const topProducts = Object.values(productSales)
+        .sort((a, b) => b.sales - a.sales)
+        .slice(0, 5);
+
+
+    // Fetch all orders and group them by month
+    const monthlyIncome = await Order.aggregate([
+        {
+            $group: {
+                _id: {
+                    year: { $year: "$createdAt" },
+                    month: { $month: "$createdAt" },
+                },
+                totalIncome: { $sum: "$totalAmount" },
+            },
+        },
+        {
+            $sort: { "_id.year": -1, "_id.month": -1 }, // Sort by most recent month first
+        },
+    ]);
+
+    res.render('dashboard2', { adminId, adminModel, categorySales, onlineSales, offlineSales, topProducts ,monthlyIncome}); // Render the dashboard with adminId
     // console.log(`token: ${req.admin.iat}`);
 });
 
@@ -58,7 +135,7 @@ router.get('/logout', async (req, res) => {
 
 router.get('/create/product', authenticate, async (req, res) => {
     const categories = await Category.find()
-    res.render('createProduct', { categories, errors:{} })
+    res.render('createProduct', { categories, errors: {} })
 })
 
 // Ensure the uploads directory exists
@@ -88,7 +165,7 @@ router.get('/product/update/:id', authenticate, async (req, res) => {
 
     const product = await Product.findById(req.params.id)
     const categories = await Category.find()
-    res.render('updateProduct', { product, categories ,errors:{} });
+    res.render('updateProduct', { product, categories, errors: {} });
 })
 
 router.post('/product/update/:id', upload.single('image'), updateProduct)
@@ -115,7 +192,7 @@ router.post('/product/unblock/:id', authenticate, unblockProduct)
 //create category
 
 router.get('/create/category', authenticate, (req, res) => {
-    res.render('createCategory',{errors:{}})
+    res.render('createCategory', { errors: {} })
 })
 
 router.post('/create/category/', authenticate, createCategory)
@@ -159,15 +236,15 @@ router.post('/subcategory/delete/:id', authenticate, deleteSubcategory)
 
 //-------------------------------userlist-----------------------------------------
 
-router.get('/user/list', authenticate, userList );
+router.get('/user/list', authenticate, userList);
 
-router.post('/user/block/:id',authenticate, userBlock)
+router.post('/user/block/:id', authenticate, userBlock)
 
-router.post('/user/unblock/:id',authenticate, userUnblock)
+router.post('/user/unblock/:id', authenticate, userUnblock)
 
-router.get('/orders/list',authenticate,async(req,res)=>{
+router.get('/orders/list', authenticate, async (req, res) => {
 
-    try { 
+    try {
         const { status } = req.query; // Get status from query params
 
         // Build filter dynamically based on status
@@ -178,14 +255,14 @@ router.get('/orders/list',authenticate,async(req,res)=>{
 
         res.render('ordersList', { orders, currentStatus: status || 'All' }); // Pass currentStatus to view
 
-    
 
-    }catch(error){
+
+    } catch (error) {
         console.log(`Admin Order List :${error}`)
         res.status(500).send('Admin Order Error')
-        
+
     }
-    
+
 })
 
 // Update Order Status
@@ -204,7 +281,7 @@ router.post('/orders/update/status/:id', authenticate, async (req, res) => {
     }
 });
 
-router.get('/ecommerce/data/design',authenticate,(req,res)=>{
+router.get('/ecommerce/data/design', authenticate, (req, res) => {
     res.render('dataDesign')
 })
 
