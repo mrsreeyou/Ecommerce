@@ -1,0 +1,361 @@
+<html>
+
+<head>
+    <title>
+        Scart
+    </title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
+
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img alt="Frontech Logo" src="https://i.pinimg.com/originals/c1/92/9d/c1929d3492c2f64ab65b43808c072043.jpg" />
+        </div>
+        <div class="nav-links">
+            <a href="/user/scart">Home</a>
+            <a href="/products">Products</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+            <a href="/user/cart">Cart</a>
+            <a href="/user/wishlist">Wishlist</a>
+            <a href="/user/orders/place">Orders</a>
+        </div>
+        <div class="nav-icons">
+            <a href="#">
+                <i class="fas fa-map-marker-alt">
+                </i>
+                Service Centers
+            </a>
+            <% if(!token ){ %>
+                <a href="/user/login">
+                    <i class="fas fa-user">
+                    </i>
+                    Sign in
+                </a>
+                <% }else if(token || token===undefined){ %>
+                    <a href="/user/logout">
+                        <i class="fas fa-user">
+                        </i>
+                        Sign out
+                    </a>
+                    <%} %>
+
+                        <a href="#">
+                            <i class="fas fa-search">
+                            </i>
+                        </a>
+                        <a href="#">
+                            <i class="fas fa-shopping-cart">
+                            </i>
+                            ₹0
+                        </a>
+        </div>
+    </div>
+
+    <div class="hero-section">
+        <h1> <%= welcome %></h1>
+        <div class="carousel-indicators">
+            <span class="active">
+            </span>
+            <span>
+            </span>
+            <span>
+            </span>
+            <span>
+            </span>
+        </div>
+        <div class="carousel-control-prev">
+            <i class="fas fa-chevron-left">
+            </i>
+        </div>
+        <div class="carousel-control-next">
+            <i class="fas fa-chevron-right">
+            </i>
+        </div>
+    </div>
+    <!-- Filter Form -->
+    <div class="filter-form">
+        <form action="/user/products/filter" method="GET">
+            <label for="category">Category:</label>
+            <select name="category">
+                <% categories.forEach(category=> { %>
+
+                    <option value="<%= category._id %>">
+                        <%= category.name %>
+                    </option>
+
+
+                    <% }) %>
+            </select>
+
+            <label for="minPrice">Min Price:</label>
+            <input type="number" id="minPrice" name="minPrice" placeholder="0">
+
+            <label for="maxPrice">Max Price:</label>
+            <input type="number" id="maxPrice" name="maxPrice" placeholder="100000">
+
+            <label for="status">Status:</label>
+            <select id="status" name="status">
+                <option value="">All</option>
+                <option value="active">>Active</option>
+                <option value="inactive">>Inactive</option>
+            </select>
+
+            <button type="submit" class="btn btn-filter">Filter</button>
+
+
+        </form>
+    </div>
+    <div class="products-row">
+        <% products.forEach(product=> { %>
+            <% if (!product.isBlocked) { %>
+                <div class="product-section">
+                    <div class="product-card">
+                        <img src="/uploads/<%= product.image %>" alt="<%= product.name %>" class="product-image">
+                        <h2 class="product-title">
+                            <%= product.name %>
+                        </h2>
+                        <p class="product-price">Price: $<%= product.price %>
+                        </p>
+                        <a class="shop-now-btn" href="/user/views/products/details/<%= product._id %>">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+             <% } %>
+        <% }) %>
+    </div>
+</body>
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .top-bar {
+        background-color: #f5f5f5;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar .logo img {
+        height: 40px;
+    }
+
+    .navbar .nav-links {
+        display: flex;
+        gap: 20px;
+    }
+
+    .navbar .nav-links a {
+        text-decoration: none;
+        color: #000;
+        font-weight: 500;
+    }
+
+    .navbar .nav-links a:hover {
+        color: #ffcc00;
+    }
+
+    .navbar .nav-icons {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .navbar .nav-icons a {
+        text-decoration: none;
+        color: #000;
+        font-size: 18px;
+    }
+
+    .navbar .nav-icons a:hover {
+        color: #ffcc00;
+    }
+
+    .hero-section {
+        background-image: url('https://media.istockphoto.com/id/1198965879/photo/organic-vegan-food.jpg?s=1024x1024&w=is&k=20&c=wmr8hfUXSLAu-MqBF2BPo_NMo6NjCyMUAA70o6SetCI=');
+        padding: 50px 20px;
+        text-align: center;
+        position: relative;
+        height: 310px;
+    }
+
+    .hero-section h1 {
+        font-size: 36px;
+        font-weight: 400;
+        margin: 20px 0;
+        font-size: 100px;
+        color: #0954cc;
+        font-family:fantasy;
+        opacity: 0.8;
+       
+        
+    }
+
+    .hero-section p {
+        font-size: 18px;
+        font-weight: 400;
+        margin: 10px 0;
+    }
+
+    .hero-section .shop-now-btn {
+        background-color: #ffcc00;
+        color: #000;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-weight: 700;
+        border-radius: 5px;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .hero-section .shop-now-btn:hover {
+        background-color: #e6b800;
+    }
+ 
+
+    .carousel-indicators {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+    }
+
+    .carousel-indicators span {
+        width: 10px;
+        height: 10px;
+        background-color: #ccc;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .carousel-indicators .active {
+        background-color: #ffcc00;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .carousel-control-prev {
+        left: 20px;
+    }
+
+    .carousel-control-next {
+        right: 20px;
+    }
+
+    .filter-form {
+        display: flex;
+        justify-content: center;
+        padding-top: 20px;
+
+    }
+    .products-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+    .product-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+        justify-content: center;
+    }
+
+    .product-card {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        width: 300px;
+        text-align: center;
+    }
+
+    .product-card img {
+        width: 150px;
+    height: 190px;
+    border-radius: 10px;
+    }
+
+    .product-card h3 {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 20px 0;
+    }
+
+    .product-card p {
+        font-size: 14px;
+        font-weight: 400;
+        margin: 10px 0;
+    }
+
+    .product-card .shop-now-btn {
+        background-color: #ffcc00;
+        color: #000;
+        padding: 10px 20px;
+        text-decoration: none;
+        font-weight: 700;
+        border-radius: 5px;
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .product-card .shop-now-btn:hover {
+        background-color: #e6b800;
+    }
+
+    @media (max-width: 768px) {
+        .navbar .nav-links {
+            display: none;
+        }
+
+        .navbar .nav-icons {
+            gap: 10px;
+        }
+
+        .hero-section h1 {
+            font-size: 28px;
+        }
+
+        .hero-section p {
+            font-size: 16px;
+        }
+
+        .product-card {
+            width: 100%;
+        }
+    }
+</style>
+
+</html>

@@ -160,7 +160,7 @@ exports.loginUser = async (req, res) => {
                 const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '2h' })
                 res.cookie('token', token)
 
-                res.render('scart', { products, welcome, token ,categories})
+                res.render('scart2', { products, welcome, token ,categories})
 
             } else {
                 res.send('your email is blocked')
@@ -259,27 +259,46 @@ exports.resetPassword = async (req, res) => {
         res.send('Invalid OTP.');
     }
 }
+const mongoose = require('mongoose'); // Ensure you import mongoose for ObjectId handling
 
-exports.filtter=async (req, res) => {
+exports.filtter = async (req, res) => {
     const { category, minPrice, maxPrice, status } = req.query;
 
     let filter = {};
-    if (category) filter.category = { $regex: category, $options: 'i' }; // Case-insensitive search
-    if (minPrice) filter.price = { ...filter.price, $gte: parseInt(minPrice) };
-    if (maxPrice) filter.price = { ...filter.price, $lte: parseInt(maxPrice) };
-    if (status === 'active') filter.isBlocked = false;
-    if (status === 'inactive') filter.isBlocked = true;
     try {
-        const products = await Product.find(filter);
-        const categories = await Category.find()
+        // Handle category filtering
+        if (category) {
+            // Check if category looks like an ObjectId
+            if (mongoose.Types.ObjectId.isValid(category)) {
+                filter.category = new mongoose.Types.ObjectId(category); // Correct use of ObjectId
+            } else {
+                console.warn('Invalid ObjectId format for category. Ignoring filter.');
+            }
+        }
 
-        res.render('scart', { products, categories, filters: req.query, welcome: ` `, token: true });
+        // Handle price filtering
+        if (minPrice) filter.price = { ...filter.price, $gte: parseInt(minPrice) };
+        if (maxPrice) filter.price = { ...filter.price, $lte: parseInt(maxPrice) };
+
+        // Handle status filtering
+        if (status === 'active') filter.isBlocked = false;
+        if (status === 'inactive') filter.isBlocked = true;
+
+        // Fetch products and categories
+        const products = await Product.find(filter);
+        const categories = await Category.find();
+
+        const token = req.cookies.token
+
+        const welcome=`sreekesh`
+
+        // Render the response
+        res.render('scart2', { products, categories, filters: req.query, welcome, token});
     } catch (err) {
-        console.error(err);
+        console.error('Error during filtering:', err.message);
         res.status(500).send('Error filtering products');
     }
-
-}
+};
 
 exports.viewDetails=async (req, res) => {
     try {
@@ -539,7 +558,7 @@ exports.placeOrder=async (req, res) => {
 
         // Calculate the total amount
         const totalAmount = cart.items.reduce((total, item) => {
-            return total + item.productId.price * item.quantity;
+            return total + item.productId.price * item.productId.quantity;
         }, 0);
 
         // Create the order

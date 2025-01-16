@@ -36,14 +36,17 @@ router.get('/dashboard', authenticate, async (req, res) => {
     const adminModel = await Admin.find().limit(1)
     console.log(adminModel.username);
 
-    const orders = await Order.find().populate('items.productId')
+    const orders = await Order.find().populate({
+        path: 'items.productId',
+        populate: { path: 'category' }, // Populate the category
+    });
 
     // Show Category wise Sales 
     const categorySales = {};
 
     orders.forEach(order => {
         order.items.forEach(item => {
-            const category = item.productId.category;
+            const category = item.productId.category.name;
             const totalPrice = item.quantity * item.productId.price;
 
             if (!categorySales[category]) {
@@ -175,7 +178,7 @@ router.post('/product/delete/:id', deleteProduct)
 
 //product list
 router.get('/product/list', authenticate, async (req, res) => {
-    const products = await Product.find();
+    const products = await Product.find().populate('category');
     res.render('productList', { products })
 })
 

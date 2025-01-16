@@ -56,7 +56,7 @@ router.get('/scart', async (req, res) => {
     const token = req.cookies.token;
     // console.log(token);
     
-    res.render('scart', { products, categories, welcome, token })
+    res.render('scart2', { products, categories, welcome, token })
 
 })
 
@@ -64,7 +64,7 @@ router.get('/scart', async (req, res) => {
 
 const{filtter}=require('../controllers/userController')
 
-router.get('/products/filter', filtter );
+router.get('/products/filter?', filtter );
 
 //product view details
 
@@ -95,24 +95,63 @@ const {removeCart}=require('../controllers/userController')
 
 router.get('/cart/remove/:productId', ensureAuthenticated,removeCart);
 
+//quantity 
+const category =require('../models/CategoryModel')
+router.get('/quantity/decrease/:id', async (req, res) => {
+    try {
+        const productId = req.params.id;
 
-// Add to Wishlist
+        // Find the product by ID
+        const product = await Product.findById(productId);
 
-const {addtoWishlist}=require('../controllers/userController')
+        if (!product) {
+            console.log('Product not found');
+            return res.status(404).send('Product not found');
+        }
 
-router.get('/wishlist/add/:productId', ensureAuthenticated, addtoWishlist);
+        // Check if quantity is greater than zero
+        if (product.quantity > 0) {
+            // Decrease the quantity
+            product.quantity -= 1;
 
-// Remove from Wishlist
-const{removeWishlist}=require('../controllers/userController')
+            // Save the updated product
+            await product.save();
 
-router.get('/wishlist/remove/:productId', ensureAuthenticated,removeWishlist);
+            // console.log(`Quantity of product ${productId} decreased to:`, product.quantity);
+        } else {
+            console.log(`Product ${productId} is out of stock`);
+        }
 
+        // Redirect to the cart page or send a response
+        res.redirect('/user/cart');
+    } catch (error) {
+        console.error('Error updating product quantity:', error.message);
+        res.status(500).send('Internal server error');
+    }
+});
 
-// Wishlist Page
-const {wishlistPage}=require('../controllers/userController')
+router.get('/quantity/increase/:id', async (req, res) => {
+    try {
+        const productId = req.params.id;
 
-router.get('/wishlist', ensureAuthenticated, wishlistPage);
+        // Find the product by ID
+        const product = await Product.findById(productId);
 
+        if (!product) {
+            console.log('Product not found');
+            return res.status(404).send('Product not found');
+        }
+            product.quantity += 1;
+
+            await product.save();
+
+            // console.log(`Quantity of product ${productId} increased to:`, product.quantity);
+        res.redirect('/user/cart');
+    } catch (error) {
+        console.error('Error updating product quantity:', error.message);
+        res.status(500).send('Internal server error');
+    }
+});
 
 
 // Place an Order
@@ -144,6 +183,24 @@ router.get('/payment/:productId', ensureAuthenticated, paymentPage);
 // Place Order Route
 const{buyNowPlaceOrder}=require('../controllers/userController')
 router.post('/payment/:productId', ensureAuthenticated,buyNowPlaceOrder );
+
+// Add to Wishlist
+
+const {addtoWishlist}=require('../controllers/userController')
+
+router.get('/wishlist/add/:productId', ensureAuthenticated, addtoWishlist);
+
+// Remove from Wishlist
+const{removeWishlist}=require('../controllers/userController')
+
+router.get('/wishlist/remove/:productId', ensureAuthenticated,removeWishlist);
+
+
+// Wishlist Page
+const {wishlistPage}=require('../controllers/userController')
+const { findById } = require('../models/userModel')
+
+router.get('/wishlist', ensureAuthenticated, wishlistPage);
 
 router.get('/scart.com',(req,res)=>{
     res.render('s')
