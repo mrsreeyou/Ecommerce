@@ -1,0 +1,79 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+</head>
+<body>
+    <div class="container">
+        <form>
+            <label for="address">Fullname</label>
+            <input type="text" id="address" name="address">
+            
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address">
+            
+            <label for="city">City</label>
+            <input type="text" id="city" name="city">
+            
+            <label for="state">State</label>
+            <input type="text" id="state" name="state">
+            
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country">
+            
+            <label for="pincode">Pincode</label>
+            <input type="text" id="pincode" name="pincode">
+            
+            <label for="contact">Contact Number</label>
+            <input type="text" id="contact" name="contact">
+            
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+    }
+    .container label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .container input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .container input[type="submit"] {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .container input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+</html>

@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 
 const Product = require('../models/ProductModel')
-const Category=require('../models/CategoryModel')
+const Category = require('../models/CategoryModel')
 
 //register
 exports.registerUser = async (req, res) => {
@@ -13,9 +13,9 @@ exports.registerUser = async (req, res) => {
     //validation
     const errors = {}
     firstnameValidation(firstname, errors)
-    ageValidation(age,errors)
-    emailValidation(email,errors)
-    passwordValidation(password,errors)
+    ageValidation(age, errors)
+    emailValidation(email, errors)
+    passwordValidation(password, errors)
 
     if (Object.keys(errors).length > 0) {
         return res.render('register', { errors });
@@ -38,31 +38,31 @@ exports.registerUser = async (req, res) => {
 
 //First name validation
 
-const firstnameValidation=function(firstname,errors){
-     if (!firstname) {
-         errors.firstname = "Enter your firstname"
-     } else if (!/^[A-Z]/.test(firstname)) {
-         errors.firstname = "Must be Name is started with a capital letter."
-     } else if (/[^a-zA-Z]/.test(firstname)) {
-         errors.firstname = "Only letters are allowed.";
-     }
+const firstnameValidation = function (firstname, errors) {
+    if (!firstname) {
+        errors.firstname = "Enter your firstname"
+    } else if (!/^[A-Z]/.test(firstname)) {
+        errors.firstname = "Must be Name is started with a capital letter."
+    } else if (/[^a-zA-Z]/.test(firstname)) {
+        errors.firstname = "Only letters are allowed.";
+    }
 }
 //Age validation
-const ageValidation=function(age,errors){
- 
-     if(!age){
-        errors.age="Enter your age."
-    }else if(age <=18){
-        errors.age="Above 18."
-    }else if(age > 60){
-        errors.age="Only 60 years old."
+const ageValidation = function (age, errors) {
+
+    if (!age) {
+        errors.age = "Enter your age."
+    } else if (age <= 18) {
+        errors.age = "Above 18."
+    } else if (age > 60) {
+        errors.age = "Only 60 years old."
     } else if (!/^\d+$/.test(age)) {
         errors.age = "Only numbers.";
     }
 }
 
 // Validation for email format
-const emailValidation= function (email,errors) {
+const emailValidation = function (email, errors) {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -80,11 +80,11 @@ const emailValidation= function (email,errors) {
     }
 }
 
-  //validation for password 
+//validation for password 
 
-const passwordValidation=function(password,errors){
+const passwordValidation = function (password, errors) {
 
-     if (!password) {
+    if (!password) {
         errors.password = "Enter password."
     } else if (password.length < 8) {
         errors.password = "Password must be at least 8 letters."
@@ -99,30 +99,30 @@ const passwordValidation=function(password,errors){
     }
 }
 
-const newpasswordValidation=function(newPassword,errors){
+const newpasswordValidation = function (newPassword, errors) {
 
     if (!newPassword) {
-       errors.newPassword = "Enter your newpassword."
-   } else if (newPassword.length < 8) {
-       errors.newPassword = "Password must be at least 8 letters."
-   } else if (newPassword.length > 8) {
-       errors.newPassword = "Password must only be 8 letters"
-   } else if (/^[0-9]/.test(newPassword)) {
-       errors.newPassword = "Password must be started with letters"
-   } else if (/^[a-zA-Z]+$/.test(newPassword)) {
-       errors.newPassword = "Must use both letters and numbers.";
-   } else if (/^[0-9]+$/.test(newPassword)) {
-       errors.newPassword = "Must use both letters and numbers.";
-   }
+        errors.newPassword = "Enter your newpassword."
+    } else if (newPassword.length < 8) {
+        errors.newPassword = "Password must be at least 8 letters."
+    } else if (newPassword.length > 8) {
+        errors.newPassword = "Password must only be 8 letters"
+    } else if (/^[0-9]/.test(newPassword)) {
+        errors.newPassword = "Password must be started with letters"
+    } else if (/^[a-zA-Z]+$/.test(newPassword)) {
+        errors.newPassword = "Must use both letters and numbers.";
+    } else if (/^[0-9]+$/.test(newPassword)) {
+        errors.newPassword = "Must use both letters and numbers.";
+    }
 }
 
 //validation for otp
 
-const otpValidation=function(otp,errors){
-    if(!otp){
-        errors.otp="Enter your otp"
-    }else if(otp.length>4){
-        errors.otp="invalid otp"
+const otpValidation = function (otp, errors) {
+    if (!otp) {
+        errors.otp = "Enter your otp"
+    } else if (otp.length > 4) {
+        errors.otp = "invalid otp"
     } else if (!/^\d+$/.test(otp)) {
         errors.age = "Only numbers.";
     }
@@ -134,8 +134,8 @@ exports.loginUser = async (req, res) => {
 
     //validation
     const errors = {}
-    emailValidation(email,errors)
-    passwordValidation(password,errors)
+    emailValidation(email, errors)
+    passwordValidation(password, errors)
 
     // If there are validation errors, re-render the form with error messages
     if (Object.keys(errors).length > 0) {
@@ -143,6 +143,7 @@ exports.loginUser = async (req, res) => {
     }
 
     const user = await User.findOne({ email })
+    res.cookie('currentuser',user)
 
     if (user) {
 
@@ -153,14 +154,23 @@ exports.loginUser = async (req, res) => {
             if (user.isBlocked === false) {
 
                 const products = await Product.find()
-                const categories=await Category.find()
-                const welcome = `welcome, ${user.firstname} `
+                const categories = await Category.find()
+                
 
                 //generate token
-                const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '2h' })
+                const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
                 res.cookie('token', token)
 
-                res.render('scart2', { products, welcome, token ,categories})
+                // Find the cart for the logged-in user
+                let cart = await Cart.findOne({ userId: req.userId });
+
+                // If no cart exists, initialize an empty cart structure
+                if (!cart) {
+                    cart = { items: [] }; // Initialize cart with empty items
+                }
+
+                // res.render('scart2', { products, welcome, token, categories, cart })
+                res.redirect('/user/scart')
 
             } else {
                 res.send('your email is blocked')
@@ -181,11 +191,11 @@ exports.loginUser = async (req, res) => {
 exports.forgetPassword = async (req, res) => {
     const { email } = req.body;
 
-    const errors={}
-    emailValidation(email,errors)
+    const errors = {}
+    emailValidation(email, errors)
 
-     // If there are validation errors, re-render the form with error messages
-     if (Object.keys(errors).length > 0) {
+    // If there are validation errors, re-render the form with error messages
+    if (Object.keys(errors).length > 0) {
         return res.render("forget-password", { errors });
     }
 
@@ -229,13 +239,13 @@ exports.resetPassword = async (req, res) => {
     const { email, otp, newPassword } = req.body;
     const storedOtp = req.cookies.otp; // Access OTP from cookie
 
-    const errors={}
-    emailValidation(email,errors)
-    otpValidation(otp,errors)
-    newpasswordValidation(newPassword,errors)
+    const errors = {}
+    emailValidation(email, errors)
+    otpValidation(otp, errors)
+    newpasswordValidation(newPassword, errors)
 
-      // If there are validation errors, re-render the form with error messages
-      if (Object.keys(errors).length > 0) {
+    // If there are validation errors, re-render the form with error messages
+    if (Object.keys(errors).length > 0) {
         return res.render("reset-password", { errors });
     }
 
@@ -289,42 +299,72 @@ exports.filtter = async (req, res) => {
         const categories = await Category.find();
 
         const token = req.cookies.token
+        const user = req.cookies.currentuser
 
-        const welcome=`sreekesh`
-
-        // Render the response
-        res.render('scart2', { products, categories, filters: req.query, welcome, token});
+        const welcome = ``
+        if(token){
+                let cart = await Cart.findOne({ userId: user._id });
+        
+                if(!cart) {
+                    cart = { items: [] }; // Initialize cart with empty items
+                }
+                console.log('1st gggg');
+                
+                res.render('scart2', { products, categories, token, cart })
+            }else{
+                let cart = {items :[]}
+                console.log('2nd ghjkk');
+                
+                res.render('scart2', { products, categories, welcome, token, cart })
+            }
+            
     } catch (err) {
         console.error('Error during filtering:', err.message);
         res.status(500).send('Error filtering products');
     }
 };
 
-exports.viewDetails=async (req, res) => {
+exports.viewDetails = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id); // Get product by ID
+        const productId = req.params.id;
+        const product = await Product.findById(productId); 
+        
         if (!product) {
             return res.status(404).send('Product not found'); // Handle missing product
         }
-        res.render('viewDetails', { product, token: true }); // Pass a single product
+
+        const user = req.cookies.currentuser;
+        if (!user) {
+            return res.redirect('/user/login'); // Redirect if no user is logged in
+        }
+
+        // Find the cart for the user
+        const cart = await Cart.findOne({ userId: user._id });
+
+        let cartText = `Add to Cart`; // Default text
+        if (cart && cart.items && cart.items.some(item => item.productId.toString() === productId)) {
+            cartText = `Go to Cart`;
+        }
+
+        res.render('viewDetails', { product, cartText }); // Pass a single product
     } catch (err) {
         console.error(`Error fetching product details: ${err.message}`);
         res.status(500).send('Server error');
     }
-}
+};
 
 exports.ensureAuthenticated = (req, res, next) => {
 
     const token = req.cookies.token
     if (!token) {
         res.redirect('/user/login')
-        
+
     }
-    try{
+    try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         req.user = decoded
         return next()
-    }catch(err){
+    } catch (err) {
         res.clearCookie(token)
         return res.redirect('/user/login')
     }
@@ -335,9 +375,9 @@ exports.ensureAuthenticated = (req, res, next) => {
 
 const Cart = require('../models/CartModel')
 
-exports.addtoCart=async (req, res) => {
+exports.addtoCart = async (req, res) => {
     const { productId } = req.params;
-    console.log('req.user:', req.user); // Log the authenticated user
+    // console.log('req.user:', req.user); // Log the authenticated user
     const userId = req.user._id; // Ensure userId is retrieved safely
     console.log(userId)
 
@@ -369,16 +409,16 @@ exports.addtoCart=async (req, res) => {
         const productIndex = cart.items.findIndex(
             item => item.productId && item.productId.toString() === productId
         );
- 
+
         if (productIndex > -1) {
             // Product exists in the cart, increment quantity
-            cart.items[productIndex].quantity += 1;
+            cart.items[productIndex].quantity += 0;
         } else {
             // Add new product to the cart
             cart.items.push({ productId, quantity: 1 });
         }
 
-        
+
         await cart.save(); // Save the updated cart
         res.redirect('/user/cart'); // Redirect to the cart page
     } catch (err) {
@@ -389,13 +429,17 @@ exports.addtoCart=async (req, res) => {
 
 //cart page
 
-exports.cartPage=async (req, res) => {
+exports.cartPage = async (req, res) => {
     const userId = req.user?._id; // Ensure userId exists
     if (!userId) {
         return res.status(400).send('User not authenticated');
     }
     try {
         const cart = await Cart.findOne({ userId }).populate('items.productId'); // Populate product details
+        cart.items.forEach(item => {
+            console.log(item.productId._id); // Logs the _id inside productId
+          });
+        
         res.render('cart', { cart: cart || { items: [] } });
     } catch (err) {
         console.error(err);
@@ -404,7 +448,7 @@ exports.cartPage=async (req, res) => {
 }
 
 //Remove from  Cart
-exports.removeCart= async (req, res) => {
+exports.removeCart = async (req, res) => {
     const { productId } = req.params;
     const userId = req.user._id; // Ensure userId is safely retrieved
 
@@ -440,7 +484,7 @@ exports.removeCart= async (req, res) => {
 
 const Wishlist = require('../models/WishlistModel')
 
-exports.addtoWishlist=async (req, res) => {
+exports.addtoWishlist = async (req, res) => {
     const { productId } = req.params;
     console.log('req.user:', req.user); // Log the authenticated user
     const userId = req.user._id; // Ensure userId is retrieved safely
@@ -483,7 +527,7 @@ exports.addtoWishlist=async (req, res) => {
             // Add new product to the cart
             wishlist.items.push({ productId, quantity: 1 });
         }
-        
+
 
         await wishlist.save(); // Save the updated cart
         console.log(wishlist.items.name)
@@ -496,7 +540,7 @@ exports.addtoWishlist=async (req, res) => {
 
 //Remove from Wishlist
 
-exports.removeWishlist= async (req, res) => {
+exports.removeWishlist = async (req, res) => {
     const { productId } = req.params;
     const userId = req.user._id; // Ensure userId is safely retrieved
 
@@ -528,7 +572,7 @@ exports.removeWishlist= async (req, res) => {
 
 //Wishlist page
 
-exports.wishlistPage=async (req, res) => {
+exports.wishlistPage = async (req, res) => {
     const userId = req.user?._id; // Ensure userId exists
     if (!userId) {
         return res.status(400).send('User not authenticatedkkk');
@@ -543,9 +587,9 @@ exports.wishlistPage=async (req, res) => {
 }
 
 //Place Order
-const Order=require('../models/OrderModel')
+const Order = require('../models/OrderModel')
 
-exports.placeOrder=async (req, res) => {
+exports.placeOrder = async (req, res) => {
     const userId = req.user._id;
     const { paymentMethod } = req.body;
     try {
@@ -587,7 +631,7 @@ exports.placeOrder=async (req, res) => {
 
 //Order page 
 
-exports.orderPage=async (req, res) => {
+exports.orderPage = async (req, res) => {
     const userId = req.user._id;
 
     try {
@@ -602,7 +646,7 @@ exports.orderPage=async (req, res) => {
 
 // Cancel Orders
 
-exports.cancelOrders=async (req, res) => {
+exports.cancelOrders = async (req, res) => {
     const { orderId } = req.params;
     const userId = req.user._id;
 
@@ -623,7 +667,7 @@ exports.cancelOrders=async (req, res) => {
     }
 }
 
-exports.buyNow=async (req, res) => {
+exports.buyNow = async (req, res) => {
     const { productId } = req.params;
     const userId = req.user._id;
 
@@ -658,9 +702,9 @@ exports.buyNow=async (req, res) => {
         console.error(err);
         res.status(500).send('Error processing Buy Now');
     }
-} 
+}
 
-exports.paymentPage=async (req, res) => {
+exports.paymentPage = async (req, res) => {
     if (!req.user) {
         return res.status(400).send('User not authenticated');
     }
@@ -691,7 +735,7 @@ exports.paymentPage=async (req, res) => {
 
 //Buynow Place Order
 
-exports.buyNowPlaceOrder=async (req, res) => {
+exports.buyNowPlaceOrder = async (req, res) => {
     const userId = req.user._id;
     const { productId } = req.params;
     const { paymentMethod } = req.body;
@@ -705,7 +749,7 @@ exports.buyNowPlaceOrder=async (req, res) => {
 
         // Find the item in the cart with the matching productId
         const item = cart.items.find(item => item.productId && item.productId._id.toString() === productId);
-        
+
         if (!item) {
             console.error('Product not found in cart:', productId);
             return res.status(400).send('Product not found in cart');

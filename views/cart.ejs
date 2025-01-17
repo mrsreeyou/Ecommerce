@@ -45,7 +45,7 @@
                         <% cart.items.forEach(item => { %>
                             <% if (item.productId) { %>
                                 <tr>
-                                    <td><img src="/uploads/<%= item.productId.image %>" alt="<%= item.productId.name %>"></td>
+                                    <td><a href="/user/views/products/details/<%= item.productId._id %>"><img src="/uploads/<%= item.productId.image %>" alt="<%= item.productId.name %>"></a></td>
                                     <td><%= item.productId.name %></td>
                                     <td><%= item.productId.price %>$</td>
                                     <td>

@@ -7,6 +7,7 @@ const path = require('path')
 const Product = require('../models/ProductModel')
 const Category=require('../models/CategoryModel')
 const Cart = require('../models/CartModel')
+const User= require('../models/userModel')
 const { render } = require('ejs')
 
 
@@ -30,6 +31,7 @@ router.post('/login', loginUser)
 
 router.get('/logout', (req, res) => {
     res.clearCookie('token')
+    res.clearCookie('currentuser')
     res.redirect('/user/scart')
 })
 
@@ -52,11 +54,48 @@ router.post('/reset-password', resetPassword)
 router.get('/scart', async (req, res) => {
     const products = await Product.find()
     const categories = await Category.find()
-    const welcome = ' '
-    const token = req.cookies.token;
-    // console.log(token);
     
-    res.render('scart2', { products, categories, welcome, token })
+    
+    const token = req.cookies.token;
+    const user=req.cookies.currentuser
+    var welcome =``
+
+    if(token ){
+          welcome = `welcome, ${user.firstname} `
+    }else{
+         welcome = `Shop now `
+    }
+   
+    // console.log(token);
+    // console.log(token);
+    // console.log(user);
+    
+    
+   
+    // console.log(user._id);
+    
+    // Find the cart for the logged-in user
+    if(token){
+        let cart = await Cart.findOne({ userId: user._id });
+
+        if(!cart) {
+            cart = { items: [] }; // Initialize cart with empty items
+        }
+        console.log('1st gggg');
+        
+        res.render('scart2', { products, categories, welcome, token, cart })
+    }else{
+        let cart = {items :[]}
+        console.log('2nd ghjkk');
+        
+        res.render('scart2', { products, categories, welcome, token, cart })
+    }
+    
+    
+
+ 
+    
+   
 
 })
 
@@ -201,6 +240,19 @@ const {wishlistPage}=require('../controllers/userController')
 const { findById } = require('../models/userModel')
 
 router.get('/wishlist', ensureAuthenticated, wishlistPage);
+
+
+router.get('/profile',ensureAuthenticated ,async(req,res)=>{
+    const token = req.cookies.token
+    const user= req.cookies.currentuser
+    console.log(user);
+    
+    res.render('profile',{token, user})
+})
+
+router.get('/address',async(req,res)=>{
+    res.render('address')
+})
 
 router.get('/scart.com',(req,res)=>{
     res.render('s')
